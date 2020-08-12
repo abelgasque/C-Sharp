@@ -135,3 +135,5 @@
 /home/abel/Documentos/GitHub/UsuarioApi/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /home/abel/Documentos/GitHub/UsuarioApi/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Relational.Design.dll
 /home/abel/Documentos/GitHub/UsuarioApi/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.SqlServer.Design.dll
+C:\Users\abelg\OneDrive\Documentos\GitHub\C-Sharp\UsuarioApi\obj\Debug\netcoreapp3.1\UsuarioApi.dll
+C:\Users\abelg\OneDrive\Documentos\GitHub\C-Sharp\UsuarioApi\obj\Debug\netcoreapp3.1\UsuarioApi.pdb
