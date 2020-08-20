@@ -1,25 +1,30 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
 import {TableModule} from 'primeng/table';
+import {InputMaskModule} from 'primeng/inputmask';
+import {KeyFilterModule} from 'primeng/keyfilter';
+import { MenubarModule } from 'primeng/menubar';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { ClientesComponent } from './clientes/clientes.component';
+import { OfertaComponent } from './oferta/oferta.component';
+import { UtilService } from './util/util.service';
+import { ClienteComponent } from './cliente/cliente.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
     HomeComponent,
-    FetchDataComponent,
-    ClientesComponent,
+    ClienteComponent,
+    OfertaComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -28,12 +33,20 @@ import { ClientesComponent } from './clientes/clientes.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'clientes', component: ClientesComponent },
+      { path: 'cliente', component: ClienteComponent },
+      { path: 'oferta' , component: OfertaComponent }
     ]),
     
-    TableModule
+    InputTextModule,
+    ButtonModule,
+    TableModule,
+    InputMaskModule,
+    KeyFilterModule,
+    MenubarModule
   ],
-  providers: [],
+  providers: [
+    UtilService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,69 @@
+<h1>Cadastro cliente</h1>
+<div class="ui-g">
+    <div class="ui-g-12">
+        <form class="ui-g-12" #f="ngForm" autocomplete="off" (ngSubmit)="gerenciarPersistencia()">
+            <div class="ui-g-12 ui-md-4 ui-fluid">
+                <span class="ui-float-label">
+                    <input pInputText type="text" name="nome" [(ngModel)]="cliente.nome"  
+                    required minlength="5" maxlength="50"> 
+                    <label>Nome</label>
+                </span>
+                <small>Campo obrigatório</small>
+            </div>
+            <div class="ui-g-12 ui-md-2 ui-fluid">
+                <span class="ui-float-label">
+                    <p-inputMask mask="999.999.999-99" name="cpf" [(ngModel)]="cliente.cpf"></p-inputMask>
+                    <label>CPF</label>
+                </span>
+                <small>Campo obrigatório</small>
+            </div>
+            <div class="ui-g-12 ui-md-2 ui-fluid">
+                <span class="ui-float-label">
+                    <input pInputText type="text" pKeyFilter="int" name="credito" [(ngModel)]="cliente.credito"> 
+                    <label>Crédito</label>
+                </span>
+                <small>Campo opcional</small>
+            </div>
+            <div class="ui-g-12 ui-md-2 ui-fluid">
+                <span class="ui-float-label">
+                    <p-inputMask mask="(99) 9999-9999" name="telefone" [(ngModel)]="cliente.telefone"></p-inputMask> 
+                    <label>Telefone</label>
+                </span>
+                <small>Campo obrigatório</small>
+            </div>
+            <div class="ui-g-12">
+                <button pButton type="submit" label="Salvar" icon="pi pi-check"
+                [disabled]="!f.valid"></button>
+            </div>
+        </form>
+    </div>
+    <div class="ui-g-12">
+        <p-table [value]="clientes" [responsive]="true" >
+            <ng-template pTemplate="caption">  
+                <div class="ui-helper-clearfix" style="text-align: center">
+                    Lista de pessoas
+                    <button type="button" pButton class="ui-button-rounded" (click)="carregarClientes()"
+                    pButton iconPos="left" style="float:right" icon="pi pi-plus" label="Listar"></button>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Telefone</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+                <tr>
+                    <td>{{rowData.nome}}</td>
+                    <td>{{rowData.cpf}}</td>
+                    <td>{{rowData.telefone}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
