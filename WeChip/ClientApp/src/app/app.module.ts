@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+import { CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
+
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
 import {TableModule} from 'primeng/table';
@@ -23,7 +25,16 @@ import { HomeComponent } from './home/home.component';
 import { OfertaComponent } from './oferta/oferta.component';
 import { UtilService } from './util/util.service';
 import { ClienteComponent } from './cliente/cliente.component';
-
+ 
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+    align: "right",
+    allowNegative: true,
+    decimal: ",",
+    precision: 2,
+    prefix: "R$ ",
+    suffix: "",
+    thousands: "."
+};
 
 @NgModule({
   declarations: [
@@ -53,11 +64,13 @@ import { ClienteComponent } from './cliente/cliente.component';
     ToastModule,
     DialogModule,
     SelectButtonModule,
-    TabViewModule
+    TabViewModule,
+    CurrencyMaskModule
   ],
   providers: [
     UtilService,
-    MessageService
+    MessageService,
+    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }
   ],
   bootstrap: [AppComponent]
 })

@@ -26,6 +26,13 @@ namespace WeChip.Controllers
             try
             {
                 var result = await _repo.GetAllClientesAsysnc();
+                foreach (Cliente cliente in result)
+                {
+                    if (cliente.IdEndereco > 0)
+                    {
+                        cliente.Endereco = await _repo.GetEnderecoAsysncById(cliente.IdEndereco);
+                    }
+                }
 
                 return Ok(result);
             }

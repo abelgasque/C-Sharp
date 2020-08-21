@@ -94,5 +94,13 @@ namespace WeChip.Data
                         .Where(c => c.Id == id);
             return await query.FirstOrDefaultAsync();
         }
+
+        public async Task<Produto[]> GetAllProdutosAsysnc()
+        {
+            IQueryable<Produto> query = _context.Produtos;
+            query = query.AsNoTracking()
+                        .OrderBy(c => c.Id);
+            return await query.ToArrayAsync();
+        }
     }
 }

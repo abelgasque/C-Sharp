@@ -58,10 +58,17 @@ namespace WeChip.Controllers
                 
                 if(model.Cliente != null && model.Cliente.Id > 0)
                 {
+                    var status = new Status
+                    {
+                        Id = 0,
+                        Descricao = "Nome Livre",
+                        FinalizaCliente = false,
+                        ContabilizarVenda = false,
+                        Codigo = "0001",
+                        IdCliente = model.Cliente.Id
+                    };
                     model.IdCliente = model.Cliente.Id;
-                    model.Status = model.Cliente.Status;
-                    model.Status.Id = 0;
-                    model.Status.IdCliente = 0;
+                    model.Status = status;
                     model.Cliente = null;
                 }
                 if (model.Produto != null && model.Produto.Id > 0)

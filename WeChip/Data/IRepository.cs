@@ -26,5 +26,7 @@ namespace WeChip.Data
         Task<Produto> GetProdutoAsysncById(long id);
 
         Task<Oferta[]> GetOfertasPorClienteIdAsysnc(long id);
+
+        Task<Produto[]> GetAllProdutosAsysnc();
     }
 }

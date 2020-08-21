@@ -13,7 +13,8 @@ export class UtilService {
   private urlCliente = `${environment.apiUrl}/api/cliente`
   private urlStatus = `${environment.apiUrl}/api/status`;
   private urlOferta = `${environment.apiUrl}/api/oferta`;
-
+  private urlProduto = `${environment.apiUrl}/api/produto`;
+  
   constructor(
     private http: HttpClient,
     private messageService: MessageService  
@@ -31,8 +32,8 @@ export class UtilService {
     return this.http.post<any>(`${this.urlCliente}`, entidade);
   }
 
-  atualizarCliente(entidade: any): Observable<any>{
-    return this.http.put<any>(`${this.urlCliente}`, entidade);
+  atualizarCliente(id: number, entidade: any): Observable<any>{
+    return this.http.put<any>(`${this.urlCliente}/${id}`, entidade);
   }
 
   getClienteById(id: number): Observable<any>{
@@ -47,6 +48,10 @@ export class UtilService {
     return this.http.get<Array<any>>(`${this.urlStatus}/por-cliente/${id}`);
   }
   
+  getAllProdutos(): Observable<any[]>{
+    return this.http.get<any>(this.urlProduto);
+  }
+
   getEnderecoPorCep(cep: string): Observable<any> {
     return this.http.get(`https://viacep.com.br/ws/${cep}/json/`);
   }

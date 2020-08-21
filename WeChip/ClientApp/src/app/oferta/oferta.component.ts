@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilService } from '../util/util.service';
-import { Cliente, Endereco, Oferta } from '../util/models';
+import { Cliente, Endereco, Oferta, Produto } from '../util/models';
 
 @Component({
   selector: 'app-oferta',
@@ -14,19 +14,25 @@ export class OfertaComponent implements OnInit {
   clienteFiltro = new Cliente();
   listaProdutos: any[] = [];
   listaStatus: any[] = [];
+  listaProdutosCadastro: any[] = [];
   display: boolean = false;
+  displayProduto: boolean = false;
   oferta = new Oferta();
   tiposProduto = [
     { label: 'Hardware', value: 'HARDWARE' },
     { label: 'Software', value: 'SOFTWARE' }
   ];
-  listaProdutoSelecionado: any[]=[];
+  produtoSelecao = new Produto();
 
   constructor(private util: UtilService) { 
+    this.carregarProdutos();
   }
 
-  ngOnInit() {
-    this.carregarClientes();
+  ngOnInit() { }
+
+  limparForm(){
+    this.oferta = new Oferta();
+    this.displayProduto = false
   }
 
   novaOferta(){
@@ -34,8 +40,43 @@ export class OfertaComponent implements OnInit {
     this.display = true;
   }
 
+  abrirDisplaySelecaoProduto(){
+    this.oferta.produto = new Produto();
+    this.displayProduto = true;
+  }
+
+  cancelarSelecao(){
+    this.oferta.produto = new Produto();
+    this.displayProduto = false;
+  }
+
+  salvarSelecao(){
+    this.oferta.produto = this.produtoSelecao;
+    this.displayProduto = false;
+  }
+
+  salvarOferta(){
+    console.log(this.oferta);
+    if(this.oferta.cliente.endereco == null && this.oferta.produto.tipo == "HARDWARE"){
+      this.util.showWarn("Para inserir produto do tipo hardware cadastre o endereço do cliente!");
+    }else{
+      this.util.adicionarOferta(this.oferta).subscribe(
+        (response:any) =>{
+          this.getOfertaPorCliente(response.idCliente);
+          this.display = false;
+          this.carregarProdutos();
+          this.limparForm();
+          this.util.showSuccess("Oferta adicionada com sucesso!");
+        },
+        (erro: any)=>{
+          console.log(erro);
+          this.util.showError("Erro ao adicionar oferta!");
+        }
+      );
+    }
+  }
+
   getEnderecoPorCep(){
-    console.log(this.cliente)
     if(this.cliente.endereco.cep == null || this.cliente.endereco.cep == undefined){
       this.util.showWarn("Insira um CEP");
     }else{
@@ -55,12 +96,11 @@ export class OfertaComponent implements OnInit {
   }
 
   editarCliente(){
-    console.log(this.cliente);
-    this.util.atualizarCliente(this.cliente).subscribe(
+    this.util.atualizarCliente(this.cliente.id, this.cliente).subscribe(
       (response:any) =>
       {
         this.util.showSuccess("Cliente atualizado com sucesso!");
-        console.log(response);
+        this.cliente = response;
       },
       (erro:any) =>
       {
@@ -118,6 +158,17 @@ export class OfertaComponent implements OnInit {
             this.listaProdutos.push(response[i].produto);
           }
         }
+      },
+      (erro: any) => {
+        console.log(erro);
+      }
+    );
+  }
+
+  carregarProdutos(){
+    this.util.getAllProdutos().subscribe(
+      (response: any) => {
+        this.listaProdutosCadastro = response;
       },
       (erro: any) => {
         console.log(erro);

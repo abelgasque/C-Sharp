@@ -1,5 +1,5 @@
 export class Endereco{
-    id: number;
+    id: number = 0;
     cep: string;
     rua: string;
     numero: string;
@@ -10,7 +10,7 @@ export class Endereco{
 }
 
 export class Status{
-    id: number;
+    id: number = 0;
     descricao: string;
     finalizaCliente: boolean;
     contabilizarVenda: boolean;
@@ -18,7 +18,7 @@ export class Status{
 }
 
 export class Cliente{
-    id: number;
+    id: number = 0;
     nome: string;
     cpf: string;
     telefone: string;
@@ -30,15 +30,15 @@ export class Cliente{
 }
 
 export class Produto{
-    id: number;
+    id: number = 0;
     descricao: string;
-    preco: number;
-    tipo: string;
+    preco: number = 0;
+    tipo: string = "HARDWARE";
     codigo: Produto;
 }
 
 export class Oferta{
-    id: number;
+    id: number = 0;
     idCliente: number;
     idStatus: number;
     idProduto: number;
