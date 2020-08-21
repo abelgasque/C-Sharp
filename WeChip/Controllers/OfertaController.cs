@@ -13,43 +13,82 @@ namespace WeChip.Controllers
     [ApiController]
     public class OfertaController : ControllerBase
     {
-        /* 
-         [HttpGet]
-         [Route("")]
-         public async Task<ActionResult<List<Oferta>>> Get([FromServices] AppDataContext context)
-         {
-             var lista = await context.Ofertas.Include(x => x.Produto).ToListAsync();
-             return lista;
-         }
+        private readonly IRepository _repo;
 
-         [HttpGet]
-         [Route("{id: long}")]
-         public async Task<ActionResult<Oferta>> GetById(
-             [FromServices] AppDataContext context, long id)
-         {
-             var oferta = await context.Ofertas
-                 .AsNoTracking()
-                 .Include(x => x.Produto).FirstOrDefaultAsync(x => x.Id == id);
-             return oferta;
-         }
+        public OfertaController(IRepository repo)
+        {
+            _repo = repo;
+        }
 
-         [HttpPost]
-         [Route("")]
-         public async Task<ActionResult<Oferta>> Post(
-             [FromServices] AppDataContext context,
-             [FromBody] Oferta model)
-         {
-             if (ModelState.IsValid)
-             {
-                 context.Ofertas.Add(model);
-                 await context.SaveChangesAsync();
-                 return model;
-             }
-             else
-             {
-                 return BadRequest(ModelState);
-             }
-         }
-        */
+        [HttpGet]
+        [Route("por-cliente/{id}")]
+        public async Task<IActionResult> GetOfertasPorCliente(long id)
+        {
+            try
+            {
+                var lista = await _repo.GetOfertasPorClienteIdAsysnc(id);
+                List<Oferta> listaRetorno = new List<Oferta> { };
+
+                foreach (Oferta oferta in lista)
+                {
+                    if (oferta.IdStatus > 0)
+                    {
+                        oferta.Status = await _repo.GetStatusAsysncById(oferta.IdStatus);
+                    }
+                    if (oferta.IdProduto > 0)
+                    {
+                        oferta.Produto = await _repo.GetProdutoAsysncById(oferta.IdProduto);
+                    }
+                    listaRetorno.Add(oferta);
+                }
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        [Route("")]
+        public async Task<IActionResult> Post(Oferta model)
+        {
+            try
+            {
+                
+                if(model.Cliente != null && model.Cliente.Id > 0)
+                {
+                    model.IdCliente = model.Cliente.Id;
+                    model.Status = model.Cliente.Status;
+                    model.Status.Id = 0;
+                    model.Status.IdCliente = 0;
+                    model.Cliente = null;
+                }
+                if (model.Produto != null && model.Produto.Id > 0)
+                {
+                    model.IdProduto = model.Produto.Id;
+                    model.Produto = null;
+                }
+                _repo.Add(model);
+                await _repo.SaveChangesAsync();
+
+                if(model.IdProduto == 0)
+                {
+                    model.IdProduto = model.Produto.Id;
+                }
+                model.IdStatus = model.Status.Id;
+
+                _repo.Update(model);
+
+                await _repo.SaveChangesAsync();
+
+                return Ok(model);
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro: {ex.Message}");
+            }
+        }
     }
 }

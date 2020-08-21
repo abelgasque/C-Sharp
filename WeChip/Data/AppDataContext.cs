@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WeChip.Models;
 
 namespace WeChip.Data
@@ -19,5 +15,17 @@ namespace WeChip.Data
         public DbSet<Produto> Produtos { get; set; }
 
         public DbSet<Oferta> Ofertas { get; set; }
+
+        public DbSet<Endereco> Enderecos { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cliente>().HasKey(e => new { e.Id });
+            modelBuilder.Entity<Status>().HasKey(c => new { c.Id });
+            modelBuilder.Entity<Produto>().HasKey(c => new { c.Id });
+            modelBuilder.Entity<Oferta>().HasKey(c => new { c.Id });
+            modelBuilder.Entity<Endereco>().HasKey(c => new { c.Id });
+        }
+
     }
 }

@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WeChip.Models
 {
     public class Status
     {
-        [Key]
+        
+
         public long Id { get; set; }
 
         public string Descricao { get; set; }
@@ -17,6 +15,8 @@ namespace WeChip.Models
 
         public Boolean ContabilizarVenda { get; set; }
 
-        public long CodigoStatus { get; set; }
+        public string Codigo { get; set; }
+
+        public long IdCliente { get; set; }
     }
 }

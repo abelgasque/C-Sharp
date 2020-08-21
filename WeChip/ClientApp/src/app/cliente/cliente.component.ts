@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Cliente } from '../util/models';
+import { Cliente, Status } from '../util/models';
 import { UtilService } from '../util/util.service';
 
 @Component({
@@ -9,43 +9,30 @@ import { UtilService } from '../util/util.service';
 })
 export class ClienteComponent implements OnInit {
   
-  clientes: any[] = [];
   cliente = new Cliente();
-  
 
-  constructor(private util: UtilService) { }
+  constructor(private util: UtilService) {
+    this.novaInstanciaCliente();
+  }
 
   ngOnInit() {}
 
-  gerenciarPersistencia(){
-    if(this.cliente.id > 0){
-
-    }else{
-      this.salvarCliente();
-    }
+  novaInstanciaCliente(){
+    this.cliente = new Cliente();
+    this.cliente.endereco = null;
+    this.cliente.status = null;
   }
-  
+
   salvarCliente(){
-    console.log(this.cliente);
     this.util.adicionarCliente(this.cliente).subscribe(
       (response: any) => {
-        this.cliente = new Cliente();
+        this.novaInstanciaCliente();
+        this.util.showSuccess("Cliente adicionado com sucesso!");
       },
       (erro: any) => {
+        this.util.showError("Erro ao adicionar cliente!");
         console.log(erro);
       }
     );
   }
-
-  carregarClientes(){
-    this.util.getAllClientes().subscribe(
-      (response: any) => {
-        this.clientes =response;
-      },
-      (erro: any) => {
-        console.log(erro);
-      }
-    );
-  }
-
 }

@@ -10,7 +10,13 @@ import {ButtonModule} from 'primeng/button';
 import {TableModule} from 'primeng/table';
 import {InputMaskModule} from 'primeng/inputmask';
 import {KeyFilterModule} from 'primeng/keyfilter';
-import { MenubarModule } from 'primeng/menubar';
+import {MenubarModule} from 'primeng/menubar';
+import {DropdownModule} from 'primeng/dropdown';
+import {ToastModule} from 'primeng/toast';
+import {MessageService} from 'primeng/components/common/messageservice';
+import {DialogModule} from 'primeng/dialog';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import {TabViewModule} from 'primeng/tabview';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -42,10 +48,16 @@ import { ClienteComponent } from './cliente/cliente.component';
     TableModule,
     InputMaskModule,
     KeyFilterModule,
-    MenubarModule
+    MenubarModule,
+    DropdownModule,
+    ToastModule,
+    DialogModule,
+    SelectButtonModule,
+    TabViewModule
   ],
   providers: [
-    UtilService
+    UtilService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })
